@@ -1,0 +1,51 @@
+class Pair{
+    int first;
+    int second;
+
+    Pair(int first,int second){
+        this.first=first;
+        this.second=second;
+    }
+}
+class Solution {
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int m=image.length;
+        int n=image[0].length;
+        int[][] ans=new int[m][n];
+        int precolor=image[sr][sc];
+        Queue<Pair> qe=new LinkedList<>();
+
+         if (precolor == color) {
+            return image;
+        }
+
+        qe.offer(new Pair(sr,sc));
+        
+        image[sr][sc]=color;
+
+       
+
+        int delrow[]={-1,0,1,0};
+        int delcol[]={0,1,0,-1};
+
+        while(!qe.isEmpty()){
+
+                int curRow=qe.peek().first;
+                int curCol=qe.peek().second;
+                qe.poll();
+
+                for(int k=0;k<4;k++){
+                    int nrow=curRow+delrow[k];
+                    int ncol=curCol+delcol[k];
+
+                    if(nrow>=0 && ncol>=0 && nrow<m && ncol<n && image[nrow][ncol]==precolor){
+                        qe.offer(new Pair(nrow,ncol));
+                        image[nrow][ncol]=color;
+                    }
+                }
+
+            
+        }
+        return image;
+    }
+}
