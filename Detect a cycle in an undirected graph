@@ -1,0 +1,46 @@
+class Pair{
+    int first;
+    int second;
+
+    Pair(int first,int second){
+        this.first=first;
+        this.second=second;
+    }
+}
+class Solution {
+    boolean cycle(int src,List<Integer>[] adj,boolean[] vis){
+        vis[src]=true;
+        Queue<Pair> qe=new LinkedList<>();
+         qe.offer(new Pair(src,-1));
+
+         while(!qe.isEmpty()){
+            int curr=qe.peek().first;
+            int parent=qe.peek().second;
+            qe.poll();
+
+            for(Integer i:adj[curr]){
+                if(vis[i]!=true){
+                    vis[i]=true;
+                    qe.offer(new Pair(i,curr));
+                }else if(parent!=i){
+                    return true;
+                }
+            }
+         }
+         return false;
+        
+    }
+    public boolean isCycle(int V, List<Integer>[] adj) {
+        boolean vis[]=new boolean[V];
+
+        for(int i=0;i<V;i++){
+            if(vis[i]!=true){
+              boolean ans=cycle(i,adj,vis);
+              if(ans==true){
+                return true;
+              }
+            }
+        }
+        return false;
+    }
+}
